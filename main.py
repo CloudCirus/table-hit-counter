@@ -1,5 +1,6 @@
-from functools import lru_cache
+import argparse
 import timeit
+from functools import lru_cache
 
 from pandas import read_excel
 
@@ -23,8 +24,22 @@ def get_users_with_docs(all_users: list) -> list:
     return users_with_docs
 
 
+def args_parser():
+    parser = argparse.ArgumentParser(
+        description='Parse xls file and search users that do more then one doc'
+    )
+
+    parser.add_argument(
+        '--file_path',
+        help='Path to xls file for parsing',
+        default='test.xlsx'
+        )
+    return parser.parse_args()
+
+
 def main() -> None:
-    all_users = parse_table('test.xlsx')
+    args = args_parser()
+    all_users = parse_table(args.file_path)
     all_users_count = len(all_users)
     print(f'{all_users_count} - USER_ID all')
 
